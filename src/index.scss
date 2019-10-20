@@ -1,0 +1,99 @@
+$maxWidth: 500px;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 85vw;
+  height: 100vh;
+  max-width: $maxWidth;
+  line-height: 2;
+
+  .dropbtn {
+    width: 100%;
+    background-color: #3498db;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    outline: none;
+
+    &:not(.withSearchTerm) {
+      .title {
+        margin-bottom: -1rem;
+      }
+    }
+    &.withResult {
+      background-color: #971414;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: darken(#3498db, 10%);
+      &.withResult {
+        background-color: darken(#971414, 10%);
+      }
+    }
+
+    .searchTerm {
+      min-height: 1rem;
+      text-align: center;
+    }
+
+    .resultsCount {
+      margin-left: 1rem;
+    }
+  }
+
+  .dropdown-content {
+    display: none;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+
+    max-height: 60%;
+    overflow-y: scroll;
+
+    background-color: #f1f1f1;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+    &.show {
+      display: block;
+    }
+
+    .item,
+    .resultsCount {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .resultsCount {
+      position: fixed;
+      width: 100%;
+      text-align: right;
+      max-width: calc(#{$maxWidth} - 50px);
+      background: rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+}
