@@ -12,8 +12,10 @@ const Dropdown = ({ list, equals }) => {
 
   const isValidKey = key => key === BACKSPACE || key.length === 1;
   const onClick = () => {
+    setSearch(null);
+    setSearchResult(null);
     setVisible(!visible);
-  };
+  }
   const onKeyUp = ({ key }) => {
     let searchTerm = search;
 
@@ -36,18 +38,36 @@ const Dropdown = ({ list, equals }) => {
       setSearchResult(null);
     }
   };
+  const onElementClick = element => {
+    console.log(`clicked ${element.value}`);
+    setSearch(null);
+    setSearchResult(null);
+    setVisible(false);
+  };
 
   return (
     <div className="dropdown" onKeyUp={onKeyUp}>
       <button
-        className={`dropbtn ${searchResult && searchResult.length > 0 ? 'withResult' : ''} ${search ? 'withSearchTerm' : ''}`}>
+        className={
+          `dropbtn ${searchResult && searchResult.length > 0 ? 'withResult' : ''} ${search ? 'withSearchTerm' : ''}`
+        }>
         <div className="title" onClick={onClick}>Dropdown</div>
-        <div className="searchTerm">{search}</div>
+        {
+          visible && !search
+            ? <div className="searchTerm empty">type to search...</div>
+            : visible && search
+              ? <div className="searchTerm">{search}</div>
+              : null
+        }
       </button>
       <div className={`dropdown-content ${visible ? "show" : ""}`}>
-        <Elements list={list} searchResult={searchResult} firstElement={list[0]} />
+        <Elements
+          list={list}
+          searchResult={searchResult}
+          firstElement={list[0]}
+          onElementClick={onElementClick} />
       </div>
-    </div>
+    </div >
   );
 };
 

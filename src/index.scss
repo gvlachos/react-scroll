@@ -31,30 +31,41 @@ body {
     padding: 16px;
     font-size: 16px;
     border: none;
-    cursor: pointer;
     margin-top: 1rem;
     outline: none;
 
-    &:not(.withSearchTerm) {
-      .title {
-        margin-bottom: -1rem;
-      }
-    }
     &.withResult {
       background-color: #971414;
-    }
-
-    &:hover,
-    &:focus {
-      background-color: darken(#3498db, 10%);
-      &.withResult {
+      &:hover,
+      &:focus {
         background-color: darken(#971414, 10%);
       }
     }
 
+    .title {
+      display: table;
+      margin: 0 auto;
+      padding: 0.5rem;
+      cursor: pointer;
+      &:hover,
+      &:focus {
+        opacity: 0.7;
+      }
+    }
+
     .searchTerm {
+      font-size: 1rem;
       min-height: 1rem;
       text-align: center;
+      cursor: pointer;
+      &.empty {
+        opacity: 0.8;
+        font-size: 0.8rem;
+      }
+      &:hover,
+      &:focus {
+        opacity: 0.7;
+      }
     }
 
     .resultsCount {
@@ -75,7 +86,8 @@ body {
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 
     &.show {
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
 
     .item,
@@ -84,15 +96,14 @@ body {
       padding: 12px 16px;
       text-decoration: none;
       display: block;
+      cursor: pointer;
     }
 
     .resultsCount {
       position: fixed;
-      width: 100%;
-      text-align: right;
+      align-self: flex-end;
       max-width: calc(#{$maxWidth} - 50px);
       background: rgba(0, 0, 0, 0.15);
-      cursor: pointer;
       user-select: none;
     }
   }
