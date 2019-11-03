@@ -7,13 +7,29 @@ const searchList = (list, searchTerm, equals) => list.filter(current => equals(c
 
 const Dropdown = ({ list, equals }) => {
   const [visible, setVisible] = useState(false);
+  const [showFirstElement, setShowFirstElement] = useState(false);
   const [search, setSearch] = useState(null);
+  const [searchResultList, setSearchResultList] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
 
+  const dropdownContentClass = 'dropdown-content';
+
   const isValidKey = key => key === BACKSPACE || key.length === 1;
+  const onBlur = ({ relatedTarget }) => {
+    if (relatedTarget === null || !relatedTarget.classList.contains(dropdownContentClass)) {
+      setSearch(null);
+      setSearchResultList(null);
+      setShowFirstElement(true);
+      setVisible(false);
+    }
+  }
   const onClick = () => {
     setSearch(null);
-    setSearchResult(null);
+    setSearchResultList(null);
+    if (!visible) {
+      setSearchResult(null);
+      setShowFirstElement(false);
+    }
     setVisible(!visible);
   }
   const onKeyUp = ({ key }) => {
@@ -33,25 +49,22 @@ const Dropdown = ({ list, equals }) => {
 
     setSearch(searchTerm);
     if (searchTerm) {
-      setSearchResult(searchList(list, searchTerm, equals));
+      setSearchResultList(searchList(list, searchTerm, equals));
     } else {
-      setSearchResult(null);
+      setSearchResultList(null);
     }
   };
   const onElementClick = element => {
-    console.log(`clicked ${element.value}`);
-    setSearch(null);
-    setSearchResult(null);
-    setVisible(false);
+    setSearchResult(element.value);
   };
 
   return (
-    <div className="dropdown" onKeyUp={onKeyUp}>
+    <div tabIndex='0' className="dropdown" onKeyUp={onKeyUp} onBlur={onBlur}>
       <button
         className={
-          `dropbtn ${searchResult && searchResult.length > 0 ? 'withResult' : ''} ${search ? 'withSearchTerm' : ''}`
+          `dropbtn ${searchResultList && searchResultList.length > 0 ? 'withResult' : ''} ${search ? 'withSearchTerm' : ''}`
         }>
-        <div className="title" onClick={onClick}>Dropdown</div>
+        <div className="title" onClick={onClick}>{visible && searchResult ? searchResult : 'Dropdown'}</div>
         {
           visible && !search
             ? <div className="searchTerm empty">type to search...</div>
@@ -60,14 +73,14 @@ const Dropdown = ({ list, equals }) => {
               : null
         }
       </button>
-      <div className={`dropdown-content ${visible ? "show" : ""}`}>
+      <ul tabIndex='0' className={`${dropdownContentClass} ${visible ? "show" : ""}`}>
         <Elements
           list={list}
-          searchResult={searchResult}
-          firstElement={list[0]}
+          searchResultList={searchResultList}
+          showFirstElement={showFirstElement}
           onElementClick={onElementClick} />
-      </div>
-    </div >
+      </ul>
+    </div>
   );
 };
 

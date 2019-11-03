@@ -1,26 +1,24 @@
 import React, { Fragment, useState, useMemo, useEffect } from "react";
 import Element from "../Element";
 
-const Elements = ({ list, searchResult, onElementClick }) => {
+const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) => {
   const [current, setCurrent] = useState(null);
   const [selectedElement, setSelectedElement] = useState(null);
 
   // initialize and show the first element in the result
   // or the first element in the list
   useEffect(() => {
-    let behavior;
-    let elementId;
-    if (searchResult && searchResult.length) {
-      elementId = searchResult[0].key;
+    let behavior = "auto";
+    let current = null;
+    let elementId = list[0].key;
+    if (!showFirstElement && searchResultList && searchResultList.length) {
+      elementId = searchResultList[0].key;
       behavior = "smooth";
-      setCurrent(0);
-    } else {
-      elementId = list[0].key;
-      behavior = "auto";
-      setCurrent(null);
+      current = 0;
     }
+    setCurrent(current);
     setSelectedElement({ elementId, behavior });
-  }, [list, searchResult]);
+  }, [list, searchResultList, showFirstElement]);
 
   // scroll the selected element into view
   useEffect(() => {
@@ -50,13 +48,13 @@ const Elements = ({ list, searchResult, onElementClick }) => {
   const next = () => {
     const behavior = "smooth";
     let elementId;
-    if (current === null || !searchResult || searchResult.length === 0) return;
-    if (current < searchResult.length - 1) {
-      elementId = searchResult[current + 1].key;
+    if (current === null || !searchResultList || searchResultList.length === 0) return;
+    if (current < searchResultList.length - 1) {
+      elementId = searchResultList[current + 1].key;
       setCurrent(current + 1);
       setSelectedElement({ elementId, behavior });
     } else {
-      elementId = searchResult[0].key;
+      elementId = searchResultList[0].key;
       setCurrent(0);
       setSelectedElement({ elementId, behavior });
     }
@@ -65,9 +63,15 @@ const Elements = ({ list, searchResult, onElementClick }) => {
   return (
     <Fragment>
       {
-        searchResult
+        searchResultList
+        && searchResultList.length
         && current !== null
-        && <div className="resultsCount" onClick={next}>{`${current + 1} / ${searchResult.length}`}</div>
+        && <div
+          className="resultsCount"
+          onClick={next}
+        >
+          {`${current + 1} / ${searchResultList.length}`}
+        </div>
       }
       {elements}
     </Fragment>
