@@ -1,4 +1,9 @@
 $maxWidth: 500px;
+$dropbtnBgColor: #3498db;
+$dropbtnWithResultBgColor: #971414;
+$dropbtnWithResultBgColorHover: darken(#971414, 10%);
+$elementFoundColor: darken(#971414, 20%);
+$elementFoundBgColor: lighten(#971414, 60%);
 
 body {
   margin: 0;
@@ -27,7 +32,7 @@ body {
 
   .dropbtn {
     width: 100%;
-    background-color: #3498db;
+    background-color: $dropbtnBgColor;
     color: white;
     padding: 16px;
     font-size: 16px;
@@ -36,10 +41,10 @@ body {
     outline: none;
 
     &.withResult {
-      background-color: #971414;
+      background-color: $dropbtnWithResultBgColor;
       &:hover,
       &:focus {
-        background-color: darken(#971414, 10%);
+        background-color: $dropbtnWithResultBgColorHover;
       }
     }
 
@@ -100,6 +105,10 @@ body {
       text-decoration: none;
       display: block;
       cursor: pointer;
+      &.found {
+        color: $elementFoundColor;
+        background-color: $elementFoundBgColor;
+      }
     }
 
     .resultsCount {

@@ -32,17 +32,19 @@ const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) 
   // list of elements in the dropdown
   const elements = useMemo(() => {
     return list.map(item => {
+      const isElementFound = searchResultList && searchResultList.some(current => current.key === item.key);
       const onClick = () => onElementClick(item);
       return (
         <Element
           key={item.key}
           id={item.key}
           content={item.value}
+          found={isElementFound}
           onClick={onClick}
         />
       )
     })
-  }, [list]);
+  }, [list, searchResultList]);
 
   // handler to find the next element in the result
   const next = () => {

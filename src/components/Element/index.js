@@ -1,7 +1,7 @@
 import React from "react";
 
-const Element = ({ id, content, onClick }) => (
-  <li id={id} className="item" onClick={onClick}>
+const Element = ({ id, content, found, onClick }) => (
+  <li id={id} className={`item ${found ? 'found' : ''}`} onClick={onClick}>
     {content}
   </li>
 );
