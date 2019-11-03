@@ -12,24 +12,30 @@ const Dropdown = ({ list, equals }) => {
   const [searchResultList, setSearchResultList] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
 
+  const dropdownButtonClass = 'dropbtn';
   const dropdownContentClass = 'dropdown-content';
 
   const isValidKey = key => key === BACKSPACE || key.length === 1;
   const onBlur = ({ relatedTarget }) => {
-    if (relatedTarget === null || !relatedTarget.classList.contains(dropdownContentClass)) {
-      setSearch(null);
-      setSearchResultList(null);
-      setShowFirstElement(true);
-      setVisible(false);
+    if (relatedTarget !== null
+      && (
+        relatedTarget.classList.contains(dropdownButtonClass)
+        || relatedTarget.classList.contains(dropdownContentClass)
+      )
+    ) {
+      return;
     }
+
+    setSearch(null);
+    setSearchResultList(null);
+    setShowFirstElement(true);
+    setVisible(false);
   }
   const onClick = () => {
     setSearch(null);
     setSearchResultList(null);
-    if (!visible) {
-      setSearchResult(null);
-      setShowFirstElement(false);
-    }
+    if (!visible) setSearchResult(null);
+    setShowFirstElement(visible);
     setVisible(!visible);
   }
   const onKeyUp = ({ key }) => {
@@ -61,8 +67,9 @@ const Dropdown = ({ list, equals }) => {
   return (
     <div tabIndex='0' className="dropdown" onKeyUp={onKeyUp} onBlur={onBlur}>
       <button
+        tabIndex='0'
         className={
-          `dropbtn ${searchResultList && searchResultList.length > 0 ? 'withResult' : ''} ${search ? 'withSearchTerm' : ''}`
+          `${dropdownButtonClass} ${searchResultList && searchResultList.length > 0 ? 'withResult' : ''} ${search ? 'withSearchTerm' : ''}`
         }>
         <div className="title" onClick={onClick}>{visible && searchResult ? searchResult : 'Dropdown'}</div>
         {
