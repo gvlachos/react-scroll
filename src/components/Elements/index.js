@@ -1,5 +1,6 @@
-import React, { Fragment, useState, useMemo, useEffect } from "react";
-import Element from "../Element";
+import React, { Fragment, useState, useMemo, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Element from '../Element';
 
 const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) => {
   const [current, setCurrent] = useState(null);
@@ -8,12 +9,12 @@ const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) 
   // initialize and show the first element in the result
   // or the first element in the list
   useEffect(() => {
-    let behavior = "auto";
+    let behavior = 'auto';
     let current = null;
     let elementId = list[0].key;
     if (!showFirstElement && searchResultList && searchResultList.length) {
       elementId = searchResultList[0].key;
-      behavior = "smooth";
+      behavior = 'smooth';
       current = 0;
     }
     setCurrent(current);
@@ -27,7 +28,7 @@ const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) 
         behavior: selectedElement.behavior
       });
     }
-  }, [selectedElement])
+  }, [selectedElement]);
 
   // list of elements in the dropdown
   const elements = useMemo(() => {
@@ -42,13 +43,13 @@ const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) 
           found={isElementFound}
           onClick={onClick}
         />
-      )
-    })
+      );
+    });
   }, [list, searchResultList]);
 
   // handler to find the next element in the result
   const next = () => {
-    const behavior = "smooth";
+    const behavior = 'smooth';
     let elementId;
     if (current === null || !searchResultList || searchResultList.length === 0) return;
     if (current < searchResultList.length - 1) {
@@ -78,6 +79,18 @@ const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) 
       {elements}
     </Fragment>
   );
+};
+
+Elements.propTypes = {
+  list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  searchResultList: PropTypes.arrayOf(PropTypes.object),
+  showFirstElement: PropTypes.bool,
+  onElementClick: PropTypes.func.isRequired
+};
+
+Elements.defaultProps = {
+  searchResultList: [],
+  showFirstElement: false
 };
 
 export default Elements;

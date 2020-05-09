@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react';
 
 class ErrorBoundary extends Component {
   state = {
@@ -17,7 +17,7 @@ class ErrorBoundary extends Component {
       return (
         <Fragment>
           <h2>Something went wrong.</h2>
-          <details style={{ whiteSpace: "pre-wrap" }}>
+          <details style={{ whiteSpace: 'pre-wrap' }}>
             {error && error.toString()}
             <br />
             {errorInfo.componentStack}
@@ -25,6 +25,7 @@ class ErrorBoundary extends Component {
         </Fragment>
       );
     }
+    // eslint-disable-next-line react/prop-types
     return this.props.children;
   }
 }

@@ -1,68 +1,66 @@
-import React, { useState } from "react";
-import Elements from "../Elements";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Elements from '../Elements';
 
-const BACKSPACE = "Backspace";
+const BACKSPACE = 'Backspace';
 
 const searchList = (list, searchTerm, equals) => list.filter(current => equals(current.value, searchTerm));
 
 const Dropdown = ({ list, equals }) => {
-  const [visible, setVisible] = useState(false);
-  const [showFirstElement, setShowFirstElement] = useState(false);
-  const [search, setSearch] = useState(null);
-  const [searchResultList, setSearchResultList] = useState(null);
-  const [searchResult, setSearchResult] = useState(null);
-
-  const dropdownButtonClass = 'dropbtn';
-  const dropdownContentClass = 'dropdown-content';
-
-  const isValidKey = key => key === BACKSPACE || key.length === 1;
-  const onBlur = ({ relatedTarget }) => {
-    if (relatedTarget !== null
-      && (
-        relatedTarget.classList.contains(dropdownButtonClass)
-        || relatedTarget.classList.contains(dropdownContentClass)
-      )
-    ) {
-      return;
-    }
-
-    setSearch(null);
-    setSearchResultList(null);
-    setShowFirstElement(true);
-    setVisible(false);
-  }
-  const onClick = () => {
-    setSearch(null);
-    setSearchResultList(null);
-    if (!visible) setSearchResult(null);
-    setShowFirstElement(visible);
-    setVisible(!visible);
-  }
-  const onKeyUp = ({ key }) => {
-    let searchTerm = search;
-
-    if (!visible) return;
-    if (search === null && key === BACKSPACE) return;
-    if (!isValidKey(key)) return;
-
-    if (search === null) {
-      searchTerm = key;
-    } else if (key === BACKSPACE) {
-      searchTerm = search.slice(0, -1);
-    } else {
-      searchTerm = search + key;
-    }
-
-    setSearch(searchTerm);
-    if (searchTerm) {
-      setSearchResultList(searchList(list, searchTerm, equals));
-    } else {
+  const [visible, setVisible] = useState(false),
+    [showFirstElement, setShowFirstElement] = useState(false),
+    [search, setSearch] = useState(null),
+    [searchResultList, setSearchResultList] = useState(null),
+    [searchResult, setSearchResult] = useState(null),
+    dropdownButtonClass = 'dropbtn',
+    dropdownContentClass = 'dropdown-content',
+    isValidKey = key => key === BACKSPACE || key.length === 1,
+    onBlur = ({ relatedTarget }) => {
+      if (relatedTarget !== null
+        && (
+          relatedTarget.classList.contains(dropdownButtonClass)
+          || relatedTarget.classList.contains(dropdownContentClass)
+        )
+      ) {
+        return;
+      }
+      setSearch(null);
       setSearchResultList(null);
-    }
-  };
-  const onElementClick = element => {
-    setSearchResult(element.value);
-  };
+      setShowFirstElement(true);
+      setVisible(false);
+    },
+    onClick = () => {
+      setSearch(null);
+      setSearchResultList(null);
+      if (!visible) setSearchResult(null);
+      setShowFirstElement(visible);
+      setVisible(!visible);
+    },
+    onKeyUp = ({ key }) => {
+      let searchTerm = search;
+
+      if (!visible) return;
+      if (search === null && key === BACKSPACE) return;
+      if (!isValidKey(key)) return;
+
+      if (search === null) {
+        searchTerm = key;
+      } else if (key === BACKSPACE) {
+        searchTerm = search.slice(0, -1);
+      } else {
+        searchTerm = search + key;
+      }
+
+      setSearch(searchTerm);
+      if (searchTerm) {
+        setSearchResultList(searchList(list, searchTerm, equals));
+      } else {
+        setSearchResultList(null);
+      }
+    },
+    onElementClick = element => {
+      setSearchResult(element.value);
+    };
 
   return (
     <div tabIndex='0' className="dropdown" onKeyUp={onKeyUp} onBlur={onBlur}>
@@ -80,7 +78,7 @@ const Dropdown = ({ list, equals }) => {
               : null
         }
       </button>
-      <ul tabIndex='0' className={`${dropdownContentClass} ${visible ? "show" : ""}`}>
+      <ul tabIndex='0' className={`${dropdownContentClass} ${visible ? 'show' : ''}`}>
         <Elements
           list={list}
           searchResultList={searchResultList}
@@ -89,6 +87,11 @@ const Dropdown = ({ list, equals }) => {
       </ul>
     </div>
   );
+};
+
+Dropdown.propTypes = {
+  list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  equals: PropTypes.func.isRequired
 };
 
 export default Dropdown;

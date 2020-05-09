@@ -1,9 +1,9 @@
-import React from "react";
-import ErrorBoundary from "./ErrorBoundary";
+import React from 'react';
+import ErrorBoundary from './ErrorBoundary';
 
-import Dropdown from "../Dropdown";
+import Dropdown from '../Dropdown';
 
-import { getName, getNames } from "./data";
+import { getName, getNames } from './data';
 
 const LIST = [...getNames().keys()].map((x, i) => {
   const name = getName(i);
