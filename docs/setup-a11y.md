@@ -1,0 +1,1 @@
+- Add plugin `yarn add -D eslint eslint-plugin-jsx-a11y` and config file
