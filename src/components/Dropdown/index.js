@@ -65,7 +65,7 @@ const Dropdown = ({ list, equals }) => {
     };
 
   return (
-    <div className='dropdown'>
+    <main className='dropdown' role='main'>
       <button
         type='button'
         tabIndex='0'
@@ -76,9 +76,9 @@ const Dropdown = ({ list, equals }) => {
         onBlur={onBlur}
         onClick={onClick}
       >
-        <div className='title'>
+        <h1 className='title'>
           {visible && searchResult ? searchResult : 'Dropdown'}
-        </div>
+        </h1>
         {
           visible && !search
             ? <div className="searchTerm empty">type to search...</div>
@@ -95,7 +95,7 @@ const Dropdown = ({ list, equals }) => {
           onElementClick={onElementClick}
           elementResultsCountClass={elementResultsCountClass} />
       </ul>
-    </div>
+    </main>
   );
 };
 

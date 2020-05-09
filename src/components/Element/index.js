@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Element = ({ id, content, found, onClick }) => (
   <li id={id} className={`item ${found ? 'found' : ''}`}>
     <button type='button' className='button' onClick={onClick}>
-      {content}
+      <h2 className='title'>{content}</h2>
     </button>
   </li>
 );
