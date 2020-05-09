@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Element = ({ id, content, found, onClick }) => (
-  <li id={id} className={`item ${found ? 'found' : ''}`} onClick={onClick}>
-    {content}
+  <li id={id} className={`item ${found ? 'found' : ''}`}>
+    <button type='button' className='button' onClick={onClick}>
+      {content}
+    </button>
   </li>
 );
 

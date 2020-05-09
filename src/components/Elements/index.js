@@ -2,7 +2,7 @@ import React, { Fragment, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Element from '../Element';
 
-const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) => {
+const Elements = ({ list, searchResultList, showFirstElement, onElementClick, elementResultsCountClass }) => {
   const [current, setCurrent] = useState(null);
   const [selectedElement, setSelectedElement] = useState(null);
 
@@ -69,12 +69,13 @@ const Elements = ({ list, searchResultList, showFirstElement, onElementClick }) 
         searchResultList
         && searchResultList.length
         && current !== null
-        && <div
-          className="resultsCount"
+        && <button
+          type='button'
+          className={`button ${elementResultsCountClass}`}
           onClick={next}
         >
           {`${current + 1} / ${searchResultList.length}`}
-        </div>
+        </button>
       }
       {elements}
     </Fragment>
@@ -85,12 +86,14 @@ Elements.propTypes = {
   list: PropTypes.arrayOf(PropTypes.object).isRequired,
   searchResultList: PropTypes.arrayOf(PropTypes.object),
   showFirstElement: PropTypes.bool,
-  onElementClick: PropTypes.func.isRequired
+  onElementClick: PropTypes.func.isRequired,
+  elementResultsCountClass: PropTypes.string
 };
 
 Elements.defaultProps = {
   searchResultList: [],
-  showFirstElement: false
+  showFirstElement: false,
+  elementResultsCountClass: 'results-count'
 };
 
 export default Elements;

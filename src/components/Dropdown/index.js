@@ -14,12 +14,14 @@ const Dropdown = ({ list, equals }) => {
     [searchResult, setSearchResult] = useState(null),
     dropdownButtonClass = 'dropbtn',
     dropdownContentClass = 'dropdown-content',
+    elementResultsCountClass = 'results-count',
     isValidKey = key => key === BACKSPACE || key.length === 1,
     onBlur = ({ relatedTarget }) => {
       if (relatedTarget !== null
         && (
           relatedTarget.classList.contains(dropdownButtonClass)
           || relatedTarget.classList.contains(dropdownContentClass)
+          || relatedTarget.classList.contains(elementResultsCountClass)
         )
       ) {
         return;
@@ -63,13 +65,20 @@ const Dropdown = ({ list, equals }) => {
     };
 
   return (
-    <div tabIndex='0' className="dropdown" onKeyUp={onKeyUp} onBlur={onBlur}>
+    <div className='dropdown'>
       <button
+        type='button'
         tabIndex='0'
         className={
           `${dropdownButtonClass} ${searchResultList && searchResultList.length > 0 ? 'withResult' : ''} ${search ? 'withSearchTerm' : ''}`
-        }>
-        <div className="title" onClick={onClick}>{visible && searchResult ? searchResult : 'Dropdown'}</div>
+        }
+        onKeyUp={onKeyUp}
+        onBlur={onBlur}
+        onClick={onClick}
+      >
+        <div className='title'>
+          {visible && searchResult ? searchResult : 'Dropdown'}
+        </div>
         {
           visible && !search
             ? <div className="searchTerm empty">type to search...</div>
@@ -78,12 +87,13 @@ const Dropdown = ({ list, equals }) => {
               : null
         }
       </button>
-      <ul tabIndex='0' className={`${dropdownContentClass} ${visible ? 'show' : ''}`}>
+      <ul className={`${dropdownContentClass} ${visible ? 'show' : ''}`}>
         <Elements
           list={list}
           searchResultList={searchResultList}
           showFirstElement={showFirstElement}
-          onElementClick={onElementClick} />
+          onElementClick={onElementClick}
+          elementResultsCountClass={elementResultsCountClass} />
       </ul>
     </div>
   );
